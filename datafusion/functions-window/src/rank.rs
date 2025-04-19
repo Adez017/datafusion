@@ -105,12 +105,28 @@ pub enum RankType {
 static RANK_DOCUMENTATION: LazyLock<Documentation> = LazyLock::new(|| {
     Documentation::builder(
         DOC_SECTION_RANKING,
-            "Returns the rank of the current row within its partition, allowing \
-            gaps between ranks. This function provides a ranking similar to `row_number`, but \
-            skips ranks for identical values.",
-
-        "rank()")
-        .build()
+        "Returns the rank of the current row within its partition, allowing \
+        gaps between ranks. This function provides a ranking similar to `row_number`, but \
+        skips ranks for identical values.",
+        "rank()",
+    )
+    .sql_example(r#"```sql
+    -- Example usage of the rank window function:
+    SELECT salary,
+        rank() OVER (ORDER BY salary) AS rank
+    FROM employees;
+    ```
+    ```text
+    +--------+-----------+
+    | salary | rank      |
+    +--------+-----------+
+    | 30000  | 1         |
+    | 50000  | 2         |
+    | 70000  | 3         |
+    +--------+-----------+
+    ```
+    "#)
+    .build()
 });
 
 fn get_rank_doc() -> &'static Documentation {
@@ -121,8 +137,30 @@ static DENSE_RANK_DOCUMENTATION: LazyLock<Documentation> = LazyLock::new(|| {
     Documentation::builder(DOC_SECTION_RANKING, "Returns the rank of the current row without gaps. This function ranks \
             rows in a dense manner, meaning consecutive ranks are assigned even for identical \
             values.", "dense_rank()")
+            .sql_example(r#"```sql
+    -- Example usage of the dense_rank window function:
+    SELECT department, salary,
+        dense_rank() OVER (PARTITION BY department ORDER BY salary DESC) AS dense_rank
+    FROM employees;
+    ```
+    ```text
+    +-------------+--------+-----------+
+    | department  | salary | dense_rank|
+    +-------------+--------+-----------+
+    | HR          | 80000  | 1         |
+    | HR          | 70000  | 2         |
+    | HR          | 70000  | 2         |
+    | HR          | 50000  | 3         |
+    | IT          | 90000  | 1         |
+    | IT          | 85000  | 2         |
+    | IT          | 85000  | 2         |
+    | IT          | 60000  | 3         |
+    +-------------+--------+-----------+
+    ```
+    "#)
         .build()
 });
+
 
 fn get_dense_rank_doc() -> &'static Documentation {
     &DENSE_RANK_DOCUMENTATION
@@ -131,6 +169,27 @@ fn get_dense_rank_doc() -> &'static Documentation {
 static PERCENT_RANK_DOCUMENTATION: LazyLock<Documentation> = LazyLock::new(|| {
     Documentation::builder(DOC_SECTION_RANKING, "Returns the percentage rank of the current row within its partition. \
             The value ranges from 0 to 1 and is computed as `(rank - 1) / (total_rows - 1)`.", "percent_rank()")
+            .sql_example(r#"```sql
+                -- Example usage of the percent_rank window function:
+                SELECT department, salary,
+                    percent_rank() OVER (PARTITION BY department ORDER BY salary DESC) AS percent_rank
+                FROM employees;
+                ```
+                ```text
+                +-------------+--------+--------------+
+                | department  | salary | percent_rank |
+                +-------------+--------+--------------+
+                | HR          | 80000  | 0.0          |
+                | HR          | 70000  | 0.5          |
+                | HR          | 70000  | 0.5          |
+                | HR          | 50000  | 1.0          |
+                | IT          | 90000  | 0.0          |
+                | IT          | 85000  | 0.5          |
+                | IT          | 85000  | 0.5          |
+                | IT          | 60000  | 1.0          |
+                +-------------+--------+--------------+
+                ```
+                "#)
         .build()
 });
 

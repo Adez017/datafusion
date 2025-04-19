@@ -52,8 +52,23 @@ pub fn ntile(arg: Expr) -> Expr {
     argument(
         name = "expression",
         description = "An integer describing the number groups the partition should be split into"
-    )
-)]
+    ),
+    sql_example = r#"```sql
+    --Example usage of the ntile window function:
+    SELECT salary,
+        ntile(3) OVER (ORDER BY salary) AS ntile
+    FROM employees;
+```
+```text
++--------+-----------+
+| salary | ntile     |
++--------+-----------+
+|  30000 | 1         |
+|  50000 | 2         |
+|  70000 | 3         |
++--------+-----------+
+```
+"#)]
 #[derive(Debug)]
 pub struct Ntile {
     signature: Signature,

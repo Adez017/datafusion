@@ -44,8 +44,24 @@ define_udwf_and_expr!(
 #[user_doc(
     doc_section(label = "Ranking Functions"),
     description = "Number of the current row within its partition, counting from 1.",
-    syntax_example = "row_number()"
-)]
+    syntax_example = "row_number()",
+    sql_example = r#"```sql
+    --Example usage of the row_number window function:
+    SELECT salary,
+        row_number() OVER (ORDER BY salary) AS row_number
+    FROM employees;
+```
+```text
++--------+-----------+
+| salary | row_number|
++--------+-----------+
+| 30000  | 1         |
+| 50000  | 2         |
+| 70000  | 3         |
++--------+-----------+
+```
+
+"#)]
 #[derive(Debug)]
 pub struct RowNumber {
     signature: Signature,
