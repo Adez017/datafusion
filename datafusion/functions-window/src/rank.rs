@@ -157,6 +157,8 @@ static DENSE_RANK_DOCUMENTATION: LazyLock<Documentation> = LazyLock::new(|| {
     | IT          | 60000  | 3         |
     +-------------+--------+-----------+
     ```
+
+    
     "#)
         .build()
 });
