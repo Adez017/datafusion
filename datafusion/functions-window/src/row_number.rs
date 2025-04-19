@@ -61,7 +61,8 @@ define_udwf_and_expr!(
 +--------+-----------+
 ```
 
-"#)]
+"#
+)]
 #[derive(Debug)]
 pub struct RowNumber {
     signature: Signature,

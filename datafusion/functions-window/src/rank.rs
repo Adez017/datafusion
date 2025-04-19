@@ -161,7 +161,6 @@ static DENSE_RANK_DOCUMENTATION: LazyLock<Documentation> = LazyLock::new(|| {
         .build()
 });
 
-
 fn get_dense_rank_doc() -> &'static Documentation {
     &DENSE_RANK_DOCUMENTATION
 }

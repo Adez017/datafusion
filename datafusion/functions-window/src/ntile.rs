@@ -68,7 +68,8 @@ pub fn ntile(arg: Expr) -> Expr {
 |  70000 | 3         |
 +--------+-----------+
 ```
-"#)]
+"#
+)]
 #[derive(Debug)]
 pub struct Ntile {
     signature: Signature,
