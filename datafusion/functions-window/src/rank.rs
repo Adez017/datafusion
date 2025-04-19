@@ -110,7 +110,7 @@ static RANK_DOCUMENTATION: LazyLock<Documentation> = LazyLock::new(|| {
         skips ranks for identical values.",
         "rank()",
     )
-    .sql_example(r#"```sql
+    .with_sql_example(r#"```sql
     -- Example usage of the rank window function:
     SELECT salary,
         rank() OVER (ORDER BY salary) AS rank
@@ -137,7 +137,7 @@ static DENSE_RANK_DOCUMENTATION: LazyLock<Documentation> = LazyLock::new(|| {
     Documentation::builder(DOC_SECTION_RANKING, "Returns the rank of the current row without gaps. This function ranks \
             rows in a dense manner, meaning consecutive ranks are assigned even for identical \
             values.", "dense_rank()")
-            .sql_example(r#"```sql
+            .with_sql_example(r#"```sql
     -- Example usage of the dense_rank window function:
     SELECT department, salary,
         dense_rank() OVER (PARTITION BY department ORDER BY salary DESC) AS dense_rank
@@ -168,7 +168,7 @@ fn get_dense_rank_doc() -> &'static Documentation {
 static PERCENT_RANK_DOCUMENTATION: LazyLock<Documentation> = LazyLock::new(|| {
     Documentation::builder(DOC_SECTION_RANKING, "Returns the percentage rank of the current row within its partition. \
             The value ranges from 0 to 1 and is computed as `(rank - 1) / (total_rows - 1)`.", "percent_rank()")
-            .sql_example(r#"```sql
+            .with_sql_example(r#"```sql
                 -- Example usage of the percent_rank window function:
                 SELECT department, salary,
                     percent_rank() OVER (PARTITION BY department ORDER BY salary DESC) AS percent_rank
